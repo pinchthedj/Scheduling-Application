@@ -1,0 +1,4 @@
+#F4DFC3 - background colour
+#C3F4C6 - borders
+#C3D8F4 - links
+#98BCEC - buttons
