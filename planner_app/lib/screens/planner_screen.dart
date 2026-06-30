@@ -36,11 +36,11 @@ class _PlannerScreenState extends State<PlannerScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 🔁 HEADER ROW (TITLE + PDF + TOGGLE)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -50,19 +50,18 @@ class _PlannerScreenState extends State<PlannerScreen> {
                 ),
                 Row(
                   children: [
-                    // 📄 PDF EXPORT
                     IconButton(
-                      tooltip: 'Export to PDF',
                       icon: const Icon(Icons.picture_as_pdf),
                       onPressed: () {
                         PdfService.exportTasks(tasks: tasks, date: selectedDay);
                       },
                     ),
-                    // 🔁 VIEW TOGGLE
                     Switch(
                       value: showMonthly,
-                      onChanged: (val) {
-                        setState(() => showMonthly = val);
+                      onChanged: (value) {
+                        setState(() {
+                          showMonthly = value;
+                        });
                       },
                     ),
                   ],
@@ -72,7 +71,6 @@ class _PlannerScreenState extends State<PlannerScreen> {
 
             const SizedBox(height: 12),
 
-            // 📅 Calendar
             showMonthly
                 ? MonthlyCalendar(
                     selectedDay: selectedDay,
@@ -87,26 +85,34 @@ class _PlannerScreenState extends State<PlannerScreen> {
                     },
                   ),
 
-            const SizedBox(height: 16),
-
-            // ✅ TASK LIST
-            Expanded(
-              child: ListView.builder(
-                itemCount: tasks.length,
-                itemBuilder: (context, i) {
-                  return TaskCard(
-                    task: tasks[i],
-                    onToggle: () {
-                      setState(() {
-                        tasks[i].completed = !tasks[i].completed;
-                      });
-
-                      // 💾 Persist change
-                      LocalStorage.saveTasks(tasks);
-                    },
-                  );
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  // Add task logic
                 },
+                icon: const Icon(Icons.add),
+                label: const Text('Add Task'),
               ),
+            ),
+            const SizedBox(height: 12),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: tasks.length,
+              itemBuilder: (context, i) {
+                return TaskCard(
+                  task: tasks[i],
+                  onToggle: () {
+                    setState(() {
+                      tasks[i].completed = !tasks[i].completed;
+                    });
+
+                    LocalStorage.saveTasks(tasks);
+                  },
+                );
+              },
             ),
           ],
         ),

@@ -26,29 +26,27 @@ class _MonthlyCalendarState extends State<MonthlyCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: TableCalendar(
-        firstDay: DateTime.utc(2020),
-        lastDay: DateTime.utc(2030),
-        focusedDay: focusedDay,
-        selectedDayPredicate: (day) => isSameDay(widget.selectedDay, day),
-        onDaySelected: (selected, focused) {
-          setState(() => focusedDay = focused);
-          widget.onDaySelected(selected);
-        },
-        headerStyle: const HeaderStyle(
-          formatButtonVisible: false,
-          titleCentered: true,
+    return TableCalendar(
+      firstDay: DateTime.utc(2020),
+      lastDay: DateTime.utc(2030),
+      focusedDay: focusedDay,
+      selectedDayPredicate: (day) => isSameDay(widget.selectedDay, day),
+      onDaySelected: (selected, focused) {
+        setState(() => focusedDay = focused);
+        widget.onDaySelected(selected);
+      },
+      headerStyle: const HeaderStyle(
+        formatButtonVisible: false,
+        titleCentered: true,
+      ),
+      calendarStyle: CalendarStyle(
+        todayDecoration: BoxDecoration(
+          color: Colors.purple.shade100,
+          shape: BoxShape.circle,
         ),
-        calendarStyle: CalendarStyle(
-          todayDecoration: BoxDecoration(
-            color: Colors.purple.shade100,
-            shape: BoxShape.circle,
-          ),
-          selectedDecoration: BoxDecoration(
-            color: Colors.purple,
-            shape: BoxShape.circle,
-          ),
+        selectedDecoration: const BoxDecoration(
+          color: Colors.purple,
+          shape: BoxShape.circle,
         ),
       ),
     );

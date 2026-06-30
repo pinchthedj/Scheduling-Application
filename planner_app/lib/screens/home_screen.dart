@@ -16,7 +16,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
+    
+     Scaffold(
       body: screens[index],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index,
